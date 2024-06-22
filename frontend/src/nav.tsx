@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock, faHouse, faFileInvoice, faBank, faNoteSticky, faKey } from '@fortawesome/free-solid-svg-icons';
-import useStore from './components/store';
+import {useStore} from './components/store';
 
 const Nav = () => {
     const {change} = useStore()

@@ -1,28 +1,40 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGlobe} from "@fortawesome/free-solid-svg-icons";
+import React, { useEffect, useState } from "react";
+import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "./components/ui/table";
 
-const MainPage = () =>{
-    const res = {} /// object (website Name(webName) ; email ; Number acc in this website sorted in props (recent ;favorite))
-    return (
+const MainComponent = () => {
+  const [data, setData] = useState([]);
 
-        <div className="flex h-full w-full">
-            <div>
-                <h3>{props.title}</h3>
-                {res.map((data)=>{
-                    <hr />
-                    <div className="flex flex-row justify-between [&>*]:mr-5">
-                        <FontAwesomeIcon icon={faGlobe} />
-                        <div className="flex flex-col">
-                            <p className="text-xl">{data.webName}</p>
-                            <p>{data.email}</p>
-                        </div>
+  useEffect(() => {
+    fetch("http://localhost:3000/passwords?userId=1")
+      .then((response) => response.json())
+      .then((data) => setData(data))
+      .catch((error) => console.error("Error fetching data:", error));
+  }, []);
 
+  return (
+    <div className=" h-full w-full bg-[#101113] text-white">
+      <div>
+        <Table className="w-full h-full bg-[">
+          <TableHeader>
+            <TableRow className="[&>*]:text-orange-300">
+              <TableHead>Website</TableHead>
+              <TableHead>Email</TableHead>
+              <TableHead>Password</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {data.map((item, index) => (
+              <TableRow key={index}>
+                <TableCell>{item.userDt.website}</TableCell>
+                <TableCell>{item.userDt.mail}</TableCell>
+                <TableCell>{item.userDt.password}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+    </div>
+  );
+};
 
-
-                    </div>
-                })}
-            </div>
-        </div>
-    )
-}
-export default MainPage;
+export default MainComponent;
