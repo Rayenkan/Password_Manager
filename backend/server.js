@@ -1,4 +1,3 @@
-// app.js
 import cors from 'cors';
 import express from 'express';
 import mongoose from 'mongoose';
@@ -20,6 +19,10 @@ mongoose.connect('mongodb://localhost:27017/Password_Manager', {
     .then(async () => {
         console.log('MongoDB connected...');
     })
+    .catch(err => {
+        console.error('MongoDB connection error:', err);
+        process.exit(1); // Exit the process if MongoDB connection fails
+    });
 
 // Define User schema and model with explicit collection name
 const userSchema = new mongoose.Schema({
@@ -31,16 +34,20 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model('User', userSchema);
 
 // Define Password schema and model with explicit collection name
+// Define Password schema and model with explicit collection name
 const passwordSchema = new mongoose.Schema({
     id: { type: String, required: true },
-    userDt: {
-        website: { type: String, required: true },
-        mail: { type: String, required: true },
-        password: { type: String, required: true },
-    }
+    userDt: [
+        {
+            website: { type: String, required: true },
+            mail: { type: String, required: true },
+            password: { type: String, required: true },
+        }
+    ]
 }, { collection: 'userData' }); // Explicitly specifying the collection name
 
 const Password = mongoose.model('Password', passwordSchema);
+
 
 // Create a new user
 app.post('/users', async (req, res) => {
@@ -50,7 +57,7 @@ app.post('/users', async (req, res) => {
         await user.save();
         res.status(201).send(user);
     } catch (error) {
-        console.log('Error creating user:', error);
+        console.error('Error creating user:', error);
         res.status(400).send(error);
     }
 });
@@ -59,13 +66,13 @@ app.post('/users', async (req, res) => {
 app.post('/addPassword', async (req, res) => {
     try {
         console.log(req.body)
-        const filter = { id: "1" }; // Filter condition to find the document
+        const filter = { id: req.body.id }; // Filter condition to find the document
 
         const update = {
             $push: {
                 userDt: {
                     website: req.body.data.website,
-                    mail: req.body.data.mail,
+                    mail: req.body.data.email,
                     password: req.body.data.password
                 }
             }
@@ -76,7 +83,7 @@ app.post('/addPassword', async (req, res) => {
         console.log('Adding new password entry:', result);
         res.status(201).send(result);
     } catch (error) {
-        console.log('Error adding password:', error);
+        console.error('Error adding password:', error);
         res.status(400).send(error);
     }
 });

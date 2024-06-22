@@ -6,9 +6,9 @@ import HomePage from "./HomePage";
 import Pages from "./components/pages";
 function App() {
   return (
-    <div className=" flex   ">
+    <div className=" flex overflow-hidden ">
       <Nav />
-      <div className="flex flex-col w-full">
+      <div className="flex flex-col w-full overflow-hidden ">
         <HomePage/>
         <BrowserRouter>
           <Routes>
