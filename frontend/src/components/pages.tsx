@@ -15,10 +15,10 @@ const Pages = () => {
     <div className="w-full h-full">
       {
         choice === "main" ? <MainPage /> :
-        choice === "Accounts" ? <div className='flex justify-center items-center'>No Pages</div> :
-        choice === "Bank" ? <div className='flex justify-center items-center'>No Pages</div> :
-        choice === "Notes" ? <div className='flex justify-center items-center'>No Pages</div> :
-        choice === "passwordCheck" ? <div className='flex justify-center items-center'>No Pages</div> :
+        choice === "Accounts" ? <div className='flex justify-center items-center'>No Accounts Page</div> :
+        choice === "Bank" ? <div className='flex justify-center items-center'>No Bank Page</div> :
+        choice === "Notes" ? <div className='flex justify-center items-center'>No Notes Page</div> :
+        choice === "passwordCheck" ? <div className='flex justify-center items-center'>No Password Check Page</div> :
         null
       }
     </div>
