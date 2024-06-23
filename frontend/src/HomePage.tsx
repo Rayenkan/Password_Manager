@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Input } from "./components/ui/input";
+import { redirect } from "react-router-dom";
 import { faSearch, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -9,7 +10,6 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogClose,
 } from "@/components/ui/dialog";
 import { Button } from "./components/ui/button";
 import { useState } from "react";
@@ -17,12 +17,14 @@ import { useAuth, useFetch } from "./components/store";
 import { Toaster } from "./components/ui/sonner";
 
 const HomePage = () => {
-  const id = "1";
+  const {id} = useAuth()
   const [website, setWebsite] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { setFetch } = useFetch();
-  const [open,setOpen]=useState(false)
+  const [open, setOpen] = useState(false);
+  const { name } = useAuth();
+
   const handleNewPassword = async () => {
     try {
       const response = await fetch("http://localhost:3000/addPassword", {
@@ -39,7 +41,6 @@ const HomePage = () => {
           },
         }),
       });
-      
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -48,7 +49,7 @@ const HomePage = () => {
       const res = await response.json();
       console.log("Response from server:", res);
       setFetch();
-      setOpen(false)
+      setOpen(false);
     } catch (error) {
       console.error("Fetch error:", error);
     }
@@ -60,7 +61,12 @@ const HomePage = () => {
       <br />
       <div className="flex flex-row justify-between [&>*]:mr-5">
         <Dialog open={open} onOpenChange={setOpen}>
-          <DialogTrigger className="bg-orange-500 p-2 rounded-xl" onClick={()=>{setOpen(true)}}>
+          <DialogTrigger
+            className="bg-orange-500 p-2 rounded-xl"
+            onClick={() => {
+              setOpen(true);
+            }}
+          >
             <FontAwesomeIcon icon={faPlus} /> Add
           </DialogTrigger>
           <DialogContent className="bg-[#e8e8e8]">
@@ -135,10 +141,15 @@ const HomePage = () => {
             className="pl-10 text-black"
           />
         </div>
-        <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" />
-          <AvatarFallback>Img</AvatarFallback>
-        </Avatar>
+        <div className="flex flex-row justify-between">
+          {name != "" ? <p>Welcome {name}</p> : null}
+          <a href="/">
+            <Avatar>
+              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarFallback>Img</AvatarFallback>
+            </Avatar>
+          </a>
+        </div>
       </div>
       <br />
       <hr />

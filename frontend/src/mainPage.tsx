@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 import { faGlobe } from "@fortawesome/free-solid-svg-icons";
-
 import {
   Table,
   TableHeader,
@@ -11,23 +9,25 @@ import {
   TableHead,
   TableCell,
 } from "./components/ui/table";
-import { useFetch } from "./components/store";
+import { useAuth, useFetch } from "./components/store";
 
 const MainComponent = () => {
   const [data, setData] = useState([]);
-  const { doFetch }=useFetch()
+  const { doFetch } = useFetch();
+  const {id}=useAuth()
 
   useEffect(() => {
-    fetch("http://localhost:3000/passwords?userId=1")
+    fetch(`http://localhost:3000/passwords?userId=${id}`)
       .then((response) => response.json())
       .then((data) => setData(data))
       .catch((error) => console.error("Error fetching data:", error));
   }, [doFetch]);
+  console.log(data)
 
   return (
-    <div className="h-full w-full bg-[#101113] text-white overflow-scroll">
-      <div>
-        <Table className="w-full h-full bg-[#2c2f33] mt-2">
+    <div className="flex h-[100vh] w-full bg-[#101113] text-white  ">
+      <div className=" max-h-full w-full bg-[#101113] text-white overflow-scroll ">
+        <Table className="w-full h-full bg-[#2c2f33] mt-2 mb-2 p-2 rounded-xl overflow-scroll ">
           <TableHeader>
             <TableRow className="[&>*]:text-orange-300">
               <TableHead>Website</TableHead>
