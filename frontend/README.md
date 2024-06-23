@@ -22,6 +22,8 @@ Explore the live demo: [Portfolio](https://photofinesse.netlify.app/)
 - Tailwind CSS
 -shadcn
 -zustand
+-nodeJs
+-MongoDb
 
 
 ## Authors
