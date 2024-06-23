@@ -4,7 +4,7 @@ This React application showcases modern front-end development practices with a f
 
 ## Demo
 
-Explore the live demo: [Portfolio](https://photofinesse.netlify.app/)
+Explore the live demo: [Portfolio]()
 
 ## Features
 
